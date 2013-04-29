@@ -1,5 +1,6 @@
 *.class
 
+/at.cp.jku.teaching.amprocessing/evaldata
 # Package Files #
 *.war
 *.ear
