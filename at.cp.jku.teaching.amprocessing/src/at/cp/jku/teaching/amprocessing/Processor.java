@@ -14,18 +14,18 @@ import java.util.LinkedList;
  */
 public class Processor {
 
-    private String m_filename;
-    private AudioFile m_audiofile;
+    protected String m_filename;
+    protected AudioFile m_audiofile;
     // this List should contain your results of the onset detection step (onset times in seconds)
-    private LinkedList<Double> m_onsetList;
+    protected LinkedList<Double> m_onsetList;
     // this may contain your intermediate results (in frames, before conversion to time in seconds)
-    private LinkedList<Integer> m_onsetListFrames;
+    protected LinkedList<Integer> m_onsetListFrames;
     // this variable should contain your result of the tempo estimation algorithm
-    private double m_tempo;
+    protected double m_tempo;
     // this List should contain your results of the beat detection step (beat times in seconds)
-    private LinkedList<Double> m_beatList;
+    protected LinkedList<Double> m_beatList;
     // this may contain your intermediate beat results (in frames, before conversion to time in seconds)
-    private LinkedList<Integer> m_beatListFrames;
+    protected LinkedList<Integer> m_beatListFrames;
 
     public Processor(String filename) {
         System.out.println("Initializing Processor...");
