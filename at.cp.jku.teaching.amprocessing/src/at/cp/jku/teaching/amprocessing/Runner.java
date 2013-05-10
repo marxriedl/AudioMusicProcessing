@@ -16,6 +16,8 @@ import java.util.LinkedList;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import at.cp.jku.teaching.amprocessing.project.HFCOnsetProcessor;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 

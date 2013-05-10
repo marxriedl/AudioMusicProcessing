@@ -8,70 +8,71 @@ package at.cp.jku.teaching.amprocessing;
 
 import java.util.LinkedList;
 
+import at.cp.jku.teaching.amprocessing.project.HFCOnsetProcessor;
+
 /**
- *
+ * 
  * @author andreas arzt
  */
 public class Processor {
 
-    protected String m_filename;
-    protected AudioFile m_audiofile;
-    // this List should contain your results of the onset detection step (onset times in seconds)
-    protected LinkedList<Double> m_onsetList;
-    // this may contain your intermediate results (in frames, before conversion to time in seconds)
-    protected LinkedList<Integer> m_onsetListFrames;
-    // this variable should contain your result of the tempo estimation algorithm
-    protected double m_tempo;
-    // this List should contain your results of the beat detection step (beat times in seconds)
-    protected LinkedList<Double> m_beatList;
-    // this may contain your intermediate beat results (in frames, before conversion to time in seconds)
-    protected LinkedList<Integer> m_beatListFrames;
+	private String m_filename;
+	private AudioFile m_audiofile;
+	// this List should contain your results of the onset detection step (onset times in seconds)
+	private LinkedList<Double> m_onsetList;
+	// this may contain your intermediate results (in frames, before conversion to time in seconds)
+	private LinkedList<Integer> m_onsetListFrames;
+	// this variable should contain your result of the tempo estimation algorithm
+	private double m_tempo;
+	// this List should contain your results of the beat detection step (beat times in seconds)
+	private LinkedList<Double> m_beatList;
+	// this may contain your intermediate beat results (in frames, before conversion to time in seconds)
+	private LinkedList<Integer> m_beatListFrames;
 
-    public Processor(String filename) {
-        System.out.println("Initializing Processor...");
-        m_filename = filename;
-        m_onsetList = new LinkedList<Double>();
-        m_onsetListFrames = new LinkedList<Integer>();
-        m_beatList = new LinkedList<Double>();
-        m_beatListFrames = new LinkedList<Integer>();
+	public Processor(String filename) {
+		System.out.println("Initializing Processor...");
+		m_filename = filename;
+		m_onsetList = new LinkedList<Double>();
+		m_onsetListFrames = new LinkedList<Integer>();
+		m_beatList = new LinkedList<Double>();
+		m_beatListFrames = new LinkedList<Integer>();
 
-        System.out.println("Reading Audio-File " + filename);
-        System.out.println("Performing FFT...");
-        // an AudioFile object is created with the following Paramters: AudioFile(WAVFILENAME, FFTLENGTH in seconds, HOPLENGTH in seconds)
-        // if you would like to work with multiple resolutions you simple create multiple AudioFile objects with different parameters
-        // given an audio file with 44.100 Hz the parameters below translate to an FFT with size 2048 points
-        // Note that the value is not taken to be precise; it is adjusted so that the FFT Size is always power of 2.
-        m_audiofile = new AudioFile(m_filename, 0.046439, 0.01);
-        // this starts the extraction of the basis features (the STFT)
-        m_audiofile.processFile();
-    }
+		System.out.println("Reading Audio-File " + filename);
+		System.out.println("Performing FFT...");
+		// an AudioFile object is created with the following Paramters: AudioFile(WAVFILENAME, FFTLENGTH in seconds, HOPLENGTH in seconds)
+		// if you would like to work with multiple resolutions you simple create multiple AudioFile objects with different parameters
+		// given an audio file with 44.100 Hz the parameters below translate to an FFT with size 2048 points
+		// Note that the value is not taken to be precise; it is adjusted so that the FFT Size is always power of 2.
+		m_audiofile = new AudioFile(m_filename, 0.046439, 0.01);
+		// this starts the extraction of the basis features (the STFT)
+		m_audiofile.processFile();
+	}
 
-    // This method is called from the Runner and is the starting point of your onset detection / tempo extraction code
-    public void analyze() {
-        System.out.println("Running Analysis...");
+	// This method is called from the Runner and is the starting point of your onset detection / tempo extraction code
+	public void analyze() {
+		System.out.println("Running Analysis...");
 
-        //This is a very simple kind of Onset Detector... You have to implement at least 2 more different onset detection functions
-        // have a look at the SpectralData Class - there you can also access the magnitude and the phase in each FFT bin...
+		HFCOnsetProcessor hfc_processing = new HFCOnsetProcessor(m_audiofile);
 
-        for (int i = 0; i < m_audiofile.spectralDataContainer.size(); i++) {
-            if (i == 0) {
-                continue;
-            }
-            if (m_audiofile.spectralDataContainer.get(i).totalEnergy - m_audiofile.spectralDataContainer.get(i - 1).totalEnergy > 10) {
-                m_onsetList.add(i * m_audiofile.hopTime);
-            }
-        }
-    }
+		// This is a very simple kind of Onset Detector... You have to implement at least 2 more different onset detection functions
+		// have a look at the SpectralData Class - there you can also access the magnitude and the phase in each FFT bin...
 
-    public LinkedList<Double> getOnsets() {
-        return m_onsetList;
-    }
+		/*
+		 * for (int i = 0; i < m_audiofile.spectralDataContainer.size(); i++) { if (i == 0) { continue; } if (m_audiofile.spectralDataContainer.get(i).totalEnergy -
+		 * m_audiofile.spectralDataContainer.get(i - 1).totalEnergy > 10) { m_onsetList.add(i * m_audiofile.hopTime); } }
+		 */
+		m_onsetList = hfc_processing.analyze();
+	}
 
-    public double getTempo() {
-        return m_tempo;
-    }
+	public LinkedList<Double> getOnsets() {
+		return m_onsetList;
+	}
 
-    public LinkedList<Double> getBeats() {
-        return m_beatList;
-    }
+	public double getTempo() {
+		return m_tempo;
+	}
+
+	public LinkedList<Double> getBeats() {
+		return m_beatList;
+	}
 }
