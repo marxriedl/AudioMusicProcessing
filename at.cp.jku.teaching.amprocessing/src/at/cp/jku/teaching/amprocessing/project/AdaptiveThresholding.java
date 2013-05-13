@@ -3,6 +3,7 @@ package at.cp.jku.teaching.amprocessing.project;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.WindowConstants;
 
@@ -10,12 +11,14 @@ import org.jfree.ui.RefineryUtilities;
 
 public class AdaptiveThresholding implements PeakPicking {
 
+	public static final String MEDIAN_RANGE = "MEDIAN_RANGE";
+	public static final String CONSTANT_THRESHOLD = "THRESHOLD";
 	private final int median_range;
 	private final double threshold;
 
-	public AdaptiveThresholding(double threshold, int median_range) {
-		this.threshold = threshold;
-		this.median_range = median_range;
+	public AdaptiveThresholding(Map<String, Number> parameters) {
+		this.threshold = parameters.get(CONSTANT_THRESHOLD).doubleValue();
+		this.median_range = parameters.get(MEDIAN_RANGE).intValue();
 	}
 
 	@Override

@@ -7,9 +7,17 @@
 package at.cp.jku.teaching.amprocessing;
 
 import java.util.LinkedList;
+import java.util.List;
 
+import at.cp.jku.teaching.amprocessing.project.AdaptiveThresholding;
+import at.cp.jku.teaching.amprocessing.project.BeatDetector;
+import at.cp.jku.teaching.amprocessing.project.HFCOnsetProcessor;
 import at.cp.jku.teaching.amprocessing.project.OnsetDetector;
+import at.cp.jku.teaching.amprocessing.project.PeakPicking;
+import at.cp.jku.teaching.amprocessing.project.ProcessingUtils;
+import at.cp.jku.teaching.amprocessing.project.SimpleTempoCalculator;
 import at.cp.jku.teaching.amprocessing.project.SpectralDifferenceOnsetDetector;
+import at.cp.jku.teaching.amprocessing.project.TempoCalculator;
 
 /**
  * 
@@ -55,7 +63,17 @@ public class Processor {
 
 		OnsetDetector onsetDetector = new SpectralDifferenceOnsetDetector();
 		
-		m_onsetList.addAll(onsetDetector.analyze(m_audiofile));
+		double[] onsetFunction = onsetDetector.analyze(m_audiofile);
+		
+		PeakPicking peakPicker = new AdaptiveThresholding(onsetDetector.getParameters());
+		List<Integer> peaks = peakPicker.pickPeaks(onsetFunction);
+		m_onsetList.addAll(ProcessingUtils.translateFramesToSeconds(peaks, m_audiofile.hopTime));
+		
+		BeatDetector beatDetector = null;
+		m_beatList.addAll(beatDetector.analyze(onsetFunction));
+		
+		TempoCalculator tempoCalculator = new SimpleTempoCalculator();
+		m_tempo = tempoCalculator.analyze(m_beatList);
 	}
 
 	public LinkedList<Double> getOnsets() {

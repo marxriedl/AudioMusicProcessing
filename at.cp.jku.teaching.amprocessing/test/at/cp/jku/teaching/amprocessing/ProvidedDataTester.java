@@ -7,12 +7,14 @@ import java.net.URLDecoder;
 
 public class ProvidedDataTester {
 	
+	private static final int NUMBER = 7;
+
 	public static void main(String[] args) throws Exception {
 	
-		File wavFile = getResourceFile("train1.wav");
-		File beatFile = getResourceFile("train1.beats");
-		File tempoFile = getResourceFile("train1.bpms");
-		File onsetFile = getResourceFile("train1.onsets");
+		File wavFile = getResourceFile("train" + NUMBER + ".wav");
+		File beatFile = getResourceFile("train" + NUMBER + ".beats");
+		File tempoFile = getResourceFile("train" + NUMBER + ".bpms");
+		File onsetFile = getResourceFile("train" + NUMBER + ".onsets");
 		File outputFolder = new File(wavFile.getParent() + "/output");
 		if(!outputFolder.exists()) {
 			outputFolder.mkdir();

@@ -6,8 +6,21 @@ import java.util.List;
 
 public class ProcessingUtils {
 	
+	private static final int window = 150;
+
 	private ProcessingUtils() {
 		// avoid instantiation
+	}
+	
+	public static void normalizeWindow(double[] sd) {
+		for(int i=0; i<sd.length; i++) {
+			int start = i - (window / 2);
+			start = start < 0 ? 0 : start;
+			int end = i + (window / 2);
+			end = end > sd.length ? sd.length : end;
+		Range range = range(sd, start, end);
+			sd[i] = (sd[i]-range.min)/range.range();
+		}
 	}
 	
 	public static void normalize(double[] sd) {
@@ -16,15 +29,19 @@ public class ProcessingUtils {
 			sd[i] = (sd[i]-range.min)/range.range();
 		}
 	}
-
-	public static Range range(double[] sd) {
+	
+	public static Range range(double[] sd, int start, int end) {
 		double max = Double.MIN_VALUE, min = Double.MAX_VALUE;
-		for (double d : sd) {
-			max = d > max ? d : max;
-			min = d < min ? d : min;
+		for (int i=start; i<end; i++) {
+			max = sd[i] > max ? sd[i] : max;
+			min = sd[i] < min ? sd[i] : min;
 		}
 		Range range = new Range(min, max);
 		return range;
+	}
+
+	public static Range range(double[] sd) {
+		return range(sd, 0, sd.length);
 	}
 	
 	public final static class Range {

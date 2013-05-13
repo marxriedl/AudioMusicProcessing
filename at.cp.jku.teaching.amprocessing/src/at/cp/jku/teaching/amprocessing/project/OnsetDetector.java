@@ -1,16 +1,18 @@
 package at.cp.jku.teaching.amprocessing.project;
 
-import java.util.List;
+import java.util.Map;
 
 import at.cp.jku.teaching.amprocessing.AudioFile;
 
 public interface OnsetDetector {
 
 	/**
-	 * Analyzes the given {@link AudioFile} and returns a list of onsets.
+	 * Analyzes the given {@link AudioFile} for onsets. 
 	 * @param audiofile the audio file to analyze  
-	 * @return a list of frame numbers where onsets were detected within the file
+	 * @return the normalized detection function
 	 */
-	public abstract List<Double> analyze(AudioFile audiofile);
+	double[] analyze(AudioFile audiofile);
+	
+	Map<String,Number> getParameters();
 
 }
