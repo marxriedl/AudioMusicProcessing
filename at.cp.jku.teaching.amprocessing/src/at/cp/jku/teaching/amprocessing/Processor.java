@@ -8,7 +8,8 @@ package at.cp.jku.teaching.amprocessing;
 
 import java.util.LinkedList;
 
-import at.cp.jku.teaching.amprocessing.project.HFCOnsetProcessor;
+import at.cp.jku.teaching.amprocessing.project.OnsetDetector;
+import at.cp.jku.teaching.amprocessing.project.SpectralDifferenceOnsetDetector;
 
 /**
  * 
@@ -52,16 +53,9 @@ public class Processor {
 	public void analyze() {
 		System.out.println("Running Analysis...");
 
-		HFCOnsetProcessor hfc_processing = new HFCOnsetProcessor(m_audiofile);
-
-		// This is a very simple kind of Onset Detector... You have to implement at least 2 more different onset detection functions
-		// have a look at the SpectralData Class - there you can also access the magnitude and the phase in each FFT bin...
-
-		/*
-		 * for (int i = 0; i < m_audiofile.spectralDataContainer.size(); i++) { if (i == 0) { continue; } if (m_audiofile.spectralDataContainer.get(i).totalEnergy -
-		 * m_audiofile.spectralDataContainer.get(i - 1).totalEnergy > 10) { m_onsetList.add(i * m_audiofile.hopTime); } }
-		 */
-		m_onsetList = hfc_processing.analyze();
+		OnsetDetector onsetDetector = new SpectralDifferenceOnsetDetector();
+		
+		m_onsetList.addAll(onsetDetector.analyze(m_audiofile));
 	}
 
 	public LinkedList<Double> getOnsets() {
