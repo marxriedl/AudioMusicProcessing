@@ -1,7 +1,9 @@
-package at.cp.jku.teaching.amprocessing.project;
+package at.cp.jku.teaching.amprocessing.project.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import at.cp.jku.teaching.amprocessing.project.PeakPicking;
 
 public class FixedThresholding implements PeakPicking {
 	

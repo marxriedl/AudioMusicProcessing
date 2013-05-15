@@ -1,4 +1,4 @@
-package at.cp.jku.teaching.amprocessing.project;
+package at.cp.jku.teaching.amprocessing.project.util;
 
 import java.awt.Color;
 import java.util.List;

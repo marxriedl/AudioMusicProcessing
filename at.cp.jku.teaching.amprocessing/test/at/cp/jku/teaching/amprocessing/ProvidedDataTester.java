@@ -15,7 +15,7 @@ public class ProvidedDataTester {
 		File beatFile = getResourceFile("train" + NUMBER + ".beats");
 		File tempoFile = getResourceFile("train" + NUMBER + ".bpms");
 		File onsetFile = getResourceFile("train" + NUMBER + ".onsets");
-		File outputFolder = new File(wavFile.getParent() + "/output");
+		File outputFolder = new File("output");
 		if(!outputFolder.exists()) {
 			outputFolder.mkdir();
 		}

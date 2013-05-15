@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface BeatDetector {
 
-	List<Double> analyze(double[] onsetFunction);
+	List<Integer> analyze(double[] onsetFunction);
 
 }

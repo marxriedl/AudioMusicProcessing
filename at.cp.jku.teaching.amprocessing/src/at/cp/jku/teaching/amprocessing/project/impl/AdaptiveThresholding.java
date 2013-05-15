@@ -1,4 +1,4 @@
-package at.cp.jku.teaching.amprocessing.project;
+package at.cp.jku.teaching.amprocessing.project.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,6 +8,10 @@ import java.util.Map;
 import javax.swing.WindowConstants;
 
 import org.jfree.ui.RefineryUtilities;
+
+import at.cp.jku.teaching.amprocessing.project.PeakPicking;
+import at.cp.jku.teaching.amprocessing.project.util.ProcessingUtils;
+import at.cp.jku.teaching.amprocessing.project.util.Visualisation2;
 
 public class AdaptiveThresholding implements PeakPicking {
 
@@ -24,7 +28,7 @@ public class AdaptiveThresholding implements PeakPicking {
 	@Override
 	public List<Integer> pickPeaks(double[] signal) {
 		double[] thresholds = generateThresholds(signal);
-		
+
 		List<Integer> peakList = new ArrayList<>();
 		for (int i = 1; i < signal.length - 1; i++) {
 			if (signal[i] >= thresholds[i]) {
@@ -34,40 +38,22 @@ public class AdaptiveThresholding implements PeakPicking {
 				}
 			}
 		}
-		
+
 		final Visualisation2 demo = new Visualisation2(thresholds, signal, peakList);
 		demo.pack();
 		demo.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		RefineryUtilities.centerFrameOnScreen(demo);
 		demo.setVisible(true);
-		
+
 		return peakList;
 	}
 
 	private double[] generateThresholds(final double[] signal) {
 		double[] thresholds = new double[signal.length];
 		for (int i = 0; i < signal.length; i++) {
-			thresholds[i] = threshold + getMedian(signal, i);
+			thresholds[i] = threshold + ProcessingUtils.getMedian(signal, i, median_range);
 		}
 		return thresholds;
-	}
-
-	private double getMedian(final double[] signal, final int i) {
-		int start = i - (median_range / 2);
-		start = start < 0 ? 0 : start;
-		int end = i + (median_range / 2);
-		end = end > signal.length ? signal.length : end;
-		double data[] = new double[(end - start)];
-		int m = 0;
-		for (int s = start; s < end; s++) {
-			data[m++] = signal[s];
-		}
-		Arrays.sort(data);
-		if (data.length % 2 == 0) {
-			return (data[(data.length / 2) - 1] + data[data.length / 2]) / 2;
-		} else {
-			return data[data.length / 2];
-		}
 	}
 
 }

@@ -1,6 +1,8 @@
-package at.cp.jku.teaching.amprocessing.project;
+package at.cp.jku.teaching.amprocessing.project.impl;
 
 import java.util.List;
+
+import at.cp.jku.teaching.amprocessing.project.TempoCalculator;
 
 public class SimpleTempoCalculator implements TempoCalculator {
 

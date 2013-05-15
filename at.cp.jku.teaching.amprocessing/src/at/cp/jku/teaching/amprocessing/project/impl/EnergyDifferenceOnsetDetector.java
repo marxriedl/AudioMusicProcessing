@@ -1,9 +1,10 @@
-package at.cp.jku.teaching.amprocessing.project;
+package at.cp.jku.teaching.amprocessing.project.impl;
 
 import java.util.Collections;
 import java.util.Map;
 
 import at.cp.jku.teaching.amprocessing.AudioFile;
+import at.cp.jku.teaching.amprocessing.project.OnsetDetector;
 
 /**
  * This is a very simple kind of Onset Detector... You have to implement at

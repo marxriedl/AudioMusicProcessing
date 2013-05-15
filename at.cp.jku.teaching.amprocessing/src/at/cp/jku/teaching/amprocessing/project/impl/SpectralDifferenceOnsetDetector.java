@@ -1,4 +1,4 @@
-package at.cp.jku.teaching.amprocessing.project;
+package at.cp.jku.teaching.amprocessing.project.impl;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -6,6 +6,8 @@ import java.util.Map;
 
 import at.cp.jku.teaching.amprocessing.AudioFile;
 import at.cp.jku.teaching.amprocessing.SpectralData;
+import at.cp.jku.teaching.amprocessing.project.OnsetDetector;
+import at.cp.jku.teaching.amprocessing.project.util.ProcessingUtils;
 
 public class SpectralDifferenceOnsetDetector implements OnsetDetector {
 

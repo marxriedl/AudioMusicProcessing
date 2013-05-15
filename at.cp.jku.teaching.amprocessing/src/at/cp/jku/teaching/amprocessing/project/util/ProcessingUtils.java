@@ -1,6 +1,7 @@
-package at.cp.jku.teaching.amprocessing.project;
+package at.cp.jku.teaching.amprocessing.project.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -67,6 +68,24 @@ public class ProcessingUtils {
 			result.add(frame * hopTime);
 		}
 		return result;
+	}
+	
+	public static double getMedian(final double[] signal, final int i, final int median_range) {
+		int start = i - (median_range / 2);
+		start = start < 0 ? 0 : start;
+		int end = i + (median_range / 2);
+		end = end > signal.length ? signal.length : end;
+		double data[] = new double[(end - start)];
+		int m = 0;
+		for (int s = start; s < end; s++) {
+			data[m++] = signal[s];
+		}
+		Arrays.sort(data);
+		if (data.length % 2 == 0) {
+			return (data[(data.length / 2) - 1] + data[data.length / 2]) / 2;
+		} else {
+			return data[data.length / 2];
+		}
 	}
 
 }
