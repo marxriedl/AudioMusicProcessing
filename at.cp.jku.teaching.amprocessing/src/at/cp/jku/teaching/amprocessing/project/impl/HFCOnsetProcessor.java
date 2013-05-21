@@ -8,7 +8,7 @@ import at.cp.jku.teaching.amprocessing.project.OnsetDetector;
 import at.cp.jku.teaching.amprocessing.project.util.ProcessingUtils;
 
 public class HFCOnsetProcessor implements OnsetDetector {
-	private static final int H = 50;
+	private static final int H = 20;
 	private static final double CONSTANT_THRESHOLD = 0.1;
 	
 	public HFCOnsetProcessor() {

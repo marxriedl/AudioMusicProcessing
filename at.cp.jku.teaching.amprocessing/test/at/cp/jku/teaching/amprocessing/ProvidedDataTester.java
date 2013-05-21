@@ -7,7 +7,7 @@ import java.net.URLDecoder;
 
 public class ProvidedDataTester {
 	
-	private static final int NUMBER = 7;
+	private static final int NUMBER = 2;
 
 	public static void main(String[] args) throws Exception {
 	
