@@ -8,20 +8,22 @@ public class SimpleTempoCalculator implements TempoCalculator {
 
 	@Override
 	public double analyze(List<Double> beatList) {
-		double[] intervals = new double[beatList.size()-1];
+		double[] intervals_seconds = new double[beatList.size()-1];
 		int i=0;
 		double lastBeatTime = Double.NaN;
-		for (double beatTime : intervals) {
-			if(lastBeatTime != Double.NaN) {
-				intervals[i++] = beatTime-lastBeatTime;
+		for (double beatTime : beatList) {
+			if(!Double.isNaN(lastBeatTime)) {
+				intervals_seconds[i++] = beatTime-lastBeatTime;
 			}
 			lastBeatTime = beatTime;
 		}
-		return mean(intervals);
+		double spb = mean(intervals_seconds);
+		double bpm = 60/spb;
+		return bpm;
 	}
 
 	private double mean(double[] intervals) {
-		int sum = 0;
+		double sum = 0;
 		for (int i = 0; i < intervals.length; i++) {
 			sum+=intervals[i];
 		}

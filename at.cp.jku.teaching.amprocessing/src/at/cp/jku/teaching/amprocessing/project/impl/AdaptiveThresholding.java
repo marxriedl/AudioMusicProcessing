@@ -39,11 +39,11 @@ public class AdaptiveThresholding implements PeakPicking {
 			}
 		}
 
-		final Visualisation2 demo = new Visualisation2(thresholds, signal, peakList);
-		demo.pack();
-		demo.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		RefineryUtilities.centerFrameOnScreen(demo);
-		demo.setVisible(true);
+//		final Visualisation2 demo = new Visualisation2(thresholds, signal, peakList);
+//		demo.pack();
+//		demo.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+//		RefineryUtilities.centerFrameOnScreen(demo);
+//		demo.setVisible(true);
 
 		return peakList;
 	}

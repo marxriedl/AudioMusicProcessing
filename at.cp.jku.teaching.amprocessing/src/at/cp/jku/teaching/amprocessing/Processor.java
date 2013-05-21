@@ -17,7 +17,6 @@ import at.cp.jku.teaching.amprocessing.project.impl.AdaptiveThresholding;
 import at.cp.jku.teaching.amprocessing.project.impl.AutoCorrelationBeatDetection;
 import at.cp.jku.teaching.amprocessing.project.impl.HFCOnsetProcessor;
 import at.cp.jku.teaching.amprocessing.project.impl.SimpleTempoCalculator;
-import at.cp.jku.teaching.amprocessing.project.impl.SpectralDifferenceOnsetDetector;
 import at.cp.jku.teaching.amprocessing.project.util.ProcessingUtils;
 
 /**
@@ -60,21 +59,27 @@ public class Processor {
 
 	// This method is called from the Runner and is the starting point of your onset detection / tempo extraction code
 	public void analyze() {
-		System.out.println("Running Analysis...");
+		System.out.println("Running analysis...");
 
+		System.out.println("Detecting onsets...");
 		OnsetDetector onsetDetector = new HFCOnsetProcessor();
-
+		
 		double[] onsetFunction = onsetDetector.analyze(m_audiofile);
 
+		System.out.println("Picking onsets from detection function...");
 		PeakPicking peakPicker = new AdaptiveThresholding(onsetDetector.getParameters());
 		List<Integer> peaks = peakPicker.pickPeaks(onsetFunction);
 		m_onsetList.addAll(ProcessingUtils.translateFramesToSeconds(peaks, m_audiofile.hopTime));
 
+		System.out.println("Detecting beats...");
 		BeatDetector beatDetector = new AutoCorrelationBeatDetection();
 		m_beatList.addAll(ProcessingUtils.translateFramesToSeconds(beatDetector.analyze(onsetFunction), m_audiofile.hopTime));
 
+		System.out.println("Calculating tempo...");
 		TempoCalculator tempoCalculator = new SimpleTempoCalculator();
 		m_tempo = tempoCalculator.analyze(m_beatList);
+		
+		System.out.println("Analysis done");
 	}
 
 	public LinkedList<Double> getOnsets() {
