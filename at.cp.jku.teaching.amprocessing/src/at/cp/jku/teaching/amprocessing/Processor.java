@@ -17,6 +17,7 @@ import at.cp.jku.teaching.amprocessing.project.impl.AdaptiveThresholding;
 import at.cp.jku.teaching.amprocessing.project.impl.AutoCorrelationBeatDetection;
 import at.cp.jku.teaching.amprocessing.project.impl.HFCOnsetProcessor;
 import at.cp.jku.teaching.amprocessing.project.impl.SimpleTempoCalculator;
+import at.cp.jku.teaching.amprocessing.project.impl.SpectralDifferenceOnsetDetector;
 import at.cp.jku.teaching.amprocessing.project.util.ProcessingUtils;
 
 /**
@@ -62,7 +63,7 @@ public class Processor {
 		System.out.println("Running analysis...");
 
 		System.out.println("Detecting onsets...");
-		OnsetDetector onsetDetector = new HFCOnsetProcessor();
+		OnsetDetector onsetDetector = new HFCOnsetProcessor();//new SpectralDifferenceOnsetDetector();
 		
 		double[] onsetFunction = onsetDetector.analyze(m_audiofile);
 

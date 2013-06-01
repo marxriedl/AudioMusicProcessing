@@ -25,7 +25,7 @@ public class HFCOnsetProcessor implements OnsetDetector {
 			hfc[i] = totalEnergy;
 		}
 
-		ProcessingUtils.normalizeWindow(hfc);
+		ProcessingUtils.normalize(hfc);
 
 		return hfc;
 	}

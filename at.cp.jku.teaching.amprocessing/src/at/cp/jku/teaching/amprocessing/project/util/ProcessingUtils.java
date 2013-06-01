@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ProcessingUtils {
 	
-	private static final int window = 150;
+	private static final int window = 3000;
 
 	private ProcessingUtils() {
 		// avoid instantiation
