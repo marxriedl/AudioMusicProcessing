@@ -1,17 +1,11 @@
 package at.cp.jku.teaching.amprocessing.project.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.WindowConstants;
-
-import org.jfree.ui.RefineryUtilities;
-
 import at.cp.jku.teaching.amprocessing.project.PeakPicking;
 import at.cp.jku.teaching.amprocessing.project.util.ProcessingUtils;
-import at.cp.jku.teaching.amprocessing.project.util.Visualisation2;
 
 public class AdaptiveThresholding implements PeakPicking {
 
@@ -32,18 +26,14 @@ public class AdaptiveThresholding implements PeakPicking {
 		List<Integer> peakList = new ArrayList<>();
 		for (int i = 1; i < signal.length - 1; i++) {
 			if (signal[i] >= thresholds[i]) {
+				// is larger than threshold
 				if ((signal[i - 1] - thresholds[i - 1]) < (signal[i] - thresholds[i])
 						&& (signal[i] - thresholds[i]) > (signal[i + 1] - thresholds[i + 1])) {
+					// is peak, i.e. neighbors are smaller
 					peakList.add(i);
 				}
 			}
 		}
-
-//		final Visualisation2 demo = new Visualisation2(thresholds, signal, peakList);
-//		demo.pack();
-//		demo.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-//		RefineryUtilities.centerFrameOnScreen(demo);
-//		demo.setVisible(true);
 
 		return peakList;
 	}
