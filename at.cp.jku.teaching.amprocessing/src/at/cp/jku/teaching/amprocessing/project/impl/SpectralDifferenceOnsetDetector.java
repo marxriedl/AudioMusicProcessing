@@ -38,12 +38,14 @@ public class SpectralDifferenceOnsetDetector implements OnsetDetector {
 				double magnitude = Math.abs(spectralData.magnitudes[k]);
 				// |Xk(n-1)|
 				double lastMagnitude = n == 0 ? 0 : Math.abs(list.get(n - 1).magnitudes[k]);
+				// x = |Xk(n)|-|Xk(n-1)|
+				double x = (magnitude - lastMagnitude) * (length - k);
 				// H(x) = (x + |x|)/2, i.e. zero for negative arguments
-				// with x = |Xk(n)|-|Xk(n-1)|
-				double h = Math.max(0, (magnitude - lastMagnitude) * (length - k));
+				double h = Math.max(0, x);
 				// Σ H(x)²
 				sum += Math.pow(h, 2);
 			}
+			// SD(n) = Σ H(x)²
 			sd[n] = sum;
 		}
 		ProcessingUtils.normalize(sd);
