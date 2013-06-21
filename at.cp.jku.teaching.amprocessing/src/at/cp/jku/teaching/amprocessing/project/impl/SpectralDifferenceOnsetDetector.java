@@ -21,7 +21,7 @@ public class SpectralDifferenceOnsetDetector implements OnsetDetector {
 	}
 
 	/**
-	 * SD(n) = Σ (H(|Xk(n)|-|Xk(n-1)|))² <br>
+	 * SD(n) = SUM(H(|Xk(n)|-|Xk(n-1)|))^2 <br>
 	 * and <br>
 	 * H(x) = (x + |x|)/2
 	 */
@@ -42,10 +42,10 @@ public class SpectralDifferenceOnsetDetector implements OnsetDetector {
 				double x = (magnitude - lastMagnitude) * (length - k);
 				// H(x) = (x + |x|)/2, i.e. zero for negative arguments
 				double h = Math.max(0, x);
-				// Σ H(x)²
+				// SUM(H(x)^2)
 				sum += Math.pow(h, 2);
 			}
-			// SD(n) = Σ H(x)²
+			// SD(n) = SUM(H(x)^2)
 			sd[n] = sum;
 		}
 		ProcessingUtils.normalize(sd);

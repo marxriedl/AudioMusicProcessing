@@ -14,12 +14,18 @@ public class HFCOnsetProcessor implements OnsetDetector {
 	public HFCOnsetProcessor() {
 	}
 
+	
+	/***
+	 * computes the high frequency content 
+	 * 1/N SUM(Wk * |Xk(n)|^2)
+	 * Wk energy dependent weighting, index + 1 in this case; changes due to transients are more noticable at higher frequencies
+	 */
 	public double[] analyze(AudioFile m_audiofile) {
 		double[] hfc = new double[m_audiofile.spectralDataContainer.size()];
 		for (int i = 0; i < m_audiofile.spectralDataContainer.size(); i++) {
-			double totalEnergy = 0.0;
+			double totalEnergy = 0.0; 
 			for (int k = 0; k < m_audiofile.spectralDataContainer.get(i).magnitudes.length; k++) {
-				totalEnergy += (k + 1) * Math.pow(Math.abs(m_audiofile.spectralDataContainer.get(i).magnitudes[k]), 2.0);
+				totalEnergy += /* Wk */ (k + 1) * /*|Xk(n)|^2*/ Math.pow(Math.abs(m_audiofile.spectralDataContainer.get(i).magnitudes[k]), 2.0);
 			}
 			totalEnergy /= (m_audiofile.spectralDataContainer.get(i).magnitudes.length);
 			hfc[i] = totalEnergy;

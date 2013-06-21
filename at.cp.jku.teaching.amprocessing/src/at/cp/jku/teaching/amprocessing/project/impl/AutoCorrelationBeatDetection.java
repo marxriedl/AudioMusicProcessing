@@ -26,6 +26,7 @@ public class AutoCorrelationBeatDetection implements BeatDetector {
 		int start_tau = (LOWERBOUND_MILLISECONDS * FRAMES_PER_SECOND / 1000);
 		int end_tau = (UPPERBOUND_MILLISECONDS * FRAMES_PER_SECOND / 1000);
 
+		/* pre processing step, set every value != onset to zero */
 		for (int i = 0; i < onsetFunction.length; i++) {
 			if (onsetFunction[i] <= (0.1 + ProcessingUtils.getMedian(onsetFunction, i, DELTA_WINDOW_FRAMES)))
 				onsetFunction[i] = 0.0;
@@ -33,8 +34,6 @@ public class AutoCorrelationBeatDetection implements BeatDetector {
 
 		List<Integer> beats = new ArrayList<Integer>();
 
-		int last_beat_pos = 0;
-		double last_bpm = 0.0;
 		double framesPerWindow = CORRELATION_WINDOW_SECONDS * FRAMES_PER_SECOND;
 		for (int i = 0; i < onsetFunction.length / framesPerWindow; i++) {
 			int start = i * (int) framesPerWindow;
@@ -53,12 +52,19 @@ public class AutoCorrelationBeatDetection implements BeatDetector {
 			while ((position + fpb) < end) {
 				beats.add(findInDeltaWindow(onsetFunction, position, DELTA_WINDOW_FRAMES));
 				position += fpb;
-				last_beat_pos = position;
 			}
 		}
 		return beats;
 	}
 
+	/**
+	 * implements a windowed correlation of the onsetfunction with a computed beat pulse train (generated from fpb) 
+	 * @param onsetFunction the given onsetFunction
+	 * @param fpb frames per beat, from this information a pulsetrain is generated
+	 * @param start start of the window in the onsetFunction
+	 * @param end end of the window in the onsetFunction
+	 * @return
+	 */
 	private int windowedCrossCorrelation(double[] onsetFunction, int fpb, int start, int end) {
 		double max = Double.MIN_VALUE;
 		int max_beat_pos = 0;
